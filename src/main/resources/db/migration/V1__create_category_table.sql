@@ -1,6 +1,6 @@
 CREATE TABLE categoria (
     id BIGINT(20) NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    nome varchar(50) NOT NULL
+    nome VARCHAR(50) NOT NULL
 );
 
 INSERT INTO categoria (nome) VALUES ('Alimentação');
