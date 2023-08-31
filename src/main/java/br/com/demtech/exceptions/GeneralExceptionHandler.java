@@ -7,8 +7,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -65,6 +67,14 @@ public class GeneralExceptionHandler extends ResponseEntityExceptionHandler {
             ErrorResponse errorResponse = new ErrorResponse("erro", "Pessoa não encontrada!");
             return ResponseEntity.status(NOT_FOUND).body(errorResponse);
         }
+    }
+
+    @ExceptionHandler({ EmptyResultDataAccessException.class })
+    public ResponseEntity<Object> handleEmptyResultDataAccessException(EmptyResultDataAccessException ex, WebRequest request) {
+        String userMessage = messageSource.getMessage("resource.not.found", null, LocaleContextHolder.getLocale());
+        String developerMessage = ex.toString();
+        List<Error> erros = Arrays.asList(new Error(userMessage, developerMessage));
+        return handleExceptionInternal(ex, erros, new HttpHeaders(), NOT_FOUND, request);
     }
 
     public ResponseEntity<ErrorResponse> validateNameExists(Person person) {

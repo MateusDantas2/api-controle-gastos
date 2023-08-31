@@ -1,6 +1,5 @@
 package br.com.demtech.dto;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,21 +8,20 @@ import lombok.Setter;
  * @author Mateus Dantas
  */
 @Getter @Setter
-@JsonInclude(JsonInclude.Include.NON_NULL)
-public class ErrorResponse {
+public class SuccessResponse {
 
     private String status;
     private String message;
-    private String details;
+    private Object data;
 
-    public ErrorResponse(String status, String message) {
+    public SuccessResponse(String status, String message) {
         this.status = status;
         this.message = message;
     }
 
-    public ErrorResponse(String status, String message, String details) {
+    public SuccessResponse(String status, String message, Object data) {
         this.status = status;
         this.message = message;
-        this.details = details;
+        this.data = data;
     }
 }
