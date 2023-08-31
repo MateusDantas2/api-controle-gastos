@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
  *
- * @author Mateus Nascimento
+ * @author Mateus Dantas
  */
 @SpringBootApplication
 public class ApiControleGastosApplication {

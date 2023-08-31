@@ -1,10 +1,12 @@
 package br.com.demtech.domain.repository;
 
-import br.com.demtech.domain.model.Category;
+import br.com.demtech.domain.entity.Category;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
  *
- * @author Mateus Nascimento
+ * @author Mateus Dantas
  */
-public interface CategoryRepository extends JpaRepository<Category, Long> {}
+public interface CategoryRepository extends JpaRepository<Category, Long> {
+    boolean existsByName(String name);
+}

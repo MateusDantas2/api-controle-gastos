@@ -4,6 +4,10 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.Getter;
 import org.springframework.context.ApplicationEvent;
 
+/**
+ *
+ * @author Mateus Dantas
+ */
 @Getter
 public class ResourceCreatedEvent extends ApplicationEvent {
 

@@ -8,12 +8,11 @@ import lombok.Setter;
 
 /**
  *
- * @author Mateus Nascimento
+ * @author Mateus Dantas
  */
 @Getter @Setter
 @Embeddable
 public class Address {
-
     @Column(name = "logradouro", length = 50)
     private String street;
 

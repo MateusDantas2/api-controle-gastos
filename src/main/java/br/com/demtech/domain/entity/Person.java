@@ -1,22 +1,24 @@
-package br.com.demtech.domain.model;
+package br.com.demtech.domain.entity;
 
+import br.com.demtech.domain.model.Address;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
+import static jakarta.persistence.GenerationType.IDENTITY;
+
 /**
  *
- * @author Mateus Nascimento
+ * @author Mateus Dantas
  */
 @Getter @Setter
 @Entity
 @Table(name = "pessoa")
 public class Person {
-
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
     @NotNull

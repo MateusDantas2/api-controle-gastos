@@ -8,6 +8,10 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 
+/**
+ *
+ * @author Mateus Dantas
+ */
 @Component
 public class ResourceCreatedListener implements ApplicationListener<ResourceCreatedEvent> {
     @Override

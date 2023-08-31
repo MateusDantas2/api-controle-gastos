@@ -1,10 +1,12 @@
 package br.com.demtech.domain.repository;
 
-import br.com.demtech.domain.model.Person;
+import br.com.demtech.domain.entity.Person;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
  *
- * @author Mateus Nascimento
+ * @author Mateus Dantas
  */
-public interface PersonRepository extends JpaRepository<Person, Long> {}
+public interface PersonRepository extends JpaRepository<Person, Long> {
+    boolean existsByName(String name);
+}
