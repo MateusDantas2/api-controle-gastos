@@ -2,7 +2,6 @@ package br.com.demtech.dto;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.json.JSONObject;
 
 /**
  *

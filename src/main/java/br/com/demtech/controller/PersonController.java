@@ -3,7 +3,6 @@ package br.com.demtech.controller;
 import br.com.demtech.domain.entity.Person;
 import br.com.demtech.domain.repository.PersonRepository;
 import br.com.demtech.dto.ResponseStandard;
-import br.com.demtech.exceptions.EmptyException;
 import br.com.demtech.exceptions.GeneralExceptionHandler;
 import br.com.demtech.service.PersonService;
 import jakarta.servlet.http.HttpServletResponse;
@@ -37,14 +36,14 @@ public class PersonController {
 
     @PostMapping(value = "/createPerson", produces = "application/json")
     public ResponseEntity<ResponseStandard> createPerson(@Valid @RequestBody Person person, HttpServletResponse response) {
-        ResponseStandard responseEntity = personService.createPerson(person, response);
-        return ResponseEntity.status(CREATED).body(responseEntity);
+        ResponseStandard responseStandard = personService.createPerson(person, response);
+        return ResponseEntity.status(CREATED).body(responseStandard);
     }
 
     @GetMapping
-    public ResponseEntity<List<Person>> listPerson() {
-        List<Person> person = personService.listPerson();
-        return ResponseEntity.ok().body(person);
+    public ResponseEntity<List<Person>> listPeople() {
+        List<Person> people = personService.listPeople();
+        return ResponseEntity.ok().body(people);
     }
 
     //TODO REFATORAR

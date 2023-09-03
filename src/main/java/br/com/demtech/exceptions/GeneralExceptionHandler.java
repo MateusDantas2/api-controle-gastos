@@ -97,6 +97,13 @@ public class GeneralExceptionHandler extends ResponseEntityExceptionHandler {
         return errors;
     }
 
+    @ExceptionHandler(CategoryNotFoundException.class)
+    public ResponseEntity<Object> handleCategoryNotFound(CategoryNotFoundException ex, WebRequest request) {
+        String message = ex.getMessage();
+        ErrorResponse errorResponse = new ErrorResponse("erro 404", message);
+        return handleExceptionInternal(ex, errorResponse, new HttpHeaders(), NOT_FOUND, request);
+    }
+
     @Getter
     @AllArgsConstructor
     public static class Error {
