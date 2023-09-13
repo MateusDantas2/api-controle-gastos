@@ -44,10 +44,10 @@ public class GeneralExceptionHandler extends ResponseEntityExceptionHandler {
     protected ResponseEntity<Object> handleHttpMessageNotReadable
         (HttpMessageNotReadableException e, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
 
-        String userMessage = messageSource.getMessage("invalid.field", null, getLocale());
-        String developerMessage = e.getCause().toString();
-        List<Error> errors = Arrays.asList(new Error(userMessage, developerMessage));
-        return handleExceptionInternal(e, errors, headers, BAD_REQUEST, request);
+        String userMessage = "Mensagem Inválida";
+        String developerMessage = e.getCause() != null ? e.getCause().toString() : e.toString();
+        ErrorResponse errorResponse = new ErrorResponse("erro 400", userMessage, developerMessage);
+        return handleExceptionInternal(e, errorResponse, headers, BAD_REQUEST, request);
     }
 
     @Override

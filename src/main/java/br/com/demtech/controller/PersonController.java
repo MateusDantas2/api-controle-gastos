@@ -1,9 +1,7 @@
 package br.com.demtech.controller;
 
 import br.com.demtech.domain.entity.Person;
-import br.com.demtech.domain.repository.PersonRepository;
 import br.com.demtech.dto.ResponseStandard;
-import br.com.demtech.exceptions.GeneralExceptionHandler;
 import br.com.demtech.service.PersonService;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
@@ -24,10 +22,6 @@ import static org.springframework.http.HttpStatus.NO_CONTENT;
 @RequestMapping("/people")
 public class PersonController {
 
-    @Autowired
-    private PersonRepository personRepository;
-    @Autowired
-    private GeneralExceptionHandler generalExceptionHandler;
     @Autowired
     private PersonService personService;
 
@@ -53,6 +47,12 @@ public class PersonController {
     public ResponseEntity<Person> updatePerson(@PathVariable Long id, @Valid @RequestBody Person person) {
         Person savedPerson = personService.updatePerson(id, person);
         return ResponseEntity.ok(savedPerson);
+    }
+
+    @PutMapping("/{id}/status")
+    @ResponseStatus(NO_CONTENT)
+    public void updateStatusPerson(@PathVariable Long id, @RequestBody Boolean status) {
+        personService.updateStatusPerson(id, status);
     }
 
     @DeleteMapping("/{id}")

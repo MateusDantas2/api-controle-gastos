@@ -30,5 +30,5 @@ public class Person {
 
     @NotNull
     @Column(name = "ativo")
-    private Boolean active;
+    private Boolean status;
 }

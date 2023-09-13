@@ -64,6 +64,12 @@ public class PersonService {
         return personRepository.save(savedPerson);
     }
 
+    public void updateStatusPerson(Long id, Boolean status) {
+        Person savedPerson = personValidation.getPersonById(id);
+        savedPerson.setStatus(status);
+        personRepository.save(savedPerson);
+    }
+
     public void deletePerson(Long id) {
         Optional<Person> person = personRepository.findById(id);
         if (person.isPresent()) {

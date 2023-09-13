@@ -1,16 +1,11 @@
 package br.com.demtech.validations.person;
 
-import br.com.demtech.domain.entity.Category;
 import br.com.demtech.domain.entity.Person;
 import br.com.demtech.domain.repository.PersonRepository;
-import br.com.demtech.dto.ErrorResponse;
 import br.com.demtech.dto.ResponseStandard;
+import br.com.demtech.exceptions.PersonNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
-import static org.springframework.http.HttpStatus.BAD_REQUEST;
-import static org.springframework.http.HttpStatus.CREATED;
 
 /**
  *
@@ -27,5 +22,13 @@ public class PersonValidation {
             return new ResponseStandard("erro", "O nome da pessoa já existe.");
         }
         return null;
+    }
+
+    public Person getPersonById(Long id) {
+        Person savedPerson = personRepository.findById(id).orElse(null);
+        if (savedPerson == null) {
+            throw new PersonNotFoundException(id);
+        }
+        return savedPerson;
     }
 }
