@@ -4,8 +4,7 @@ import br.com.demtech.domain.model.Address;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
 
@@ -13,7 +12,7 @@ import static jakarta.persistence.GenerationType.IDENTITY;
  *
  * @author Mateus Dantas
  */
-@Getter @Setter
+@Data
 @Entity
 @Table(name = "pessoa")
 public class Person {
