@@ -3,7 +3,9 @@ package br.com.demtech.domain.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
 
@@ -12,6 +14,8 @@ import static jakarta.persistence.GenerationType.IDENTITY;
  * @author Mateus Dantas
  */
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "categoria")
 public class Category {
