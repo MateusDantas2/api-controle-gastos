@@ -7,6 +7,8 @@ import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatusCode;
@@ -32,6 +34,7 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
  *
  * @author Mateus Dantas
  */
+@Order(Ordered.HIGHEST_PRECEDENCE)
 @ControllerAdvice
 public class GeneralExceptionHandler extends ResponseEntityExceptionHandler {
 
@@ -78,6 +81,13 @@ public class GeneralExceptionHandler extends ResponseEntityExceptionHandler {
         return errors;
     }
 
+    @ExceptionHandler(EmptyException.class)
+    public ResponseEntity<Object> handleEmptyNotFound(EmptyException ex, WebRequest request) {
+        String message = ex.getMessage();
+        ErrorResponse errorResponse = new ErrorResponse("erro 404", message);
+        return handleExceptionInternal(ex, errorResponse, new HttpHeaders(), NOT_FOUND, request);
+    }
+
     @ExceptionHandler(CategoryNotFoundException.class)
     public ResponseEntity<Object> handleCategoryNotFound(CategoryNotFoundException ex, WebRequest request) {
         String message = ex.getMessage();
@@ -92,8 +102,8 @@ public class GeneralExceptionHandler extends ResponseEntityExceptionHandler {
         return handleExceptionInternal(ex, errorResponse, new HttpHeaders(), NOT_FOUND, request);
     }
 
-    @ExceptionHandler(EmptyException.class)
-    public ResponseEntity<Object> handleEmptyNotFound(EmptyException ex, WebRequest request) {
+    @ExceptionHandler(ReleaseNotFoundException.class)
+    public ResponseEntity<Object> handleReleaseNotFound(ReleaseNotFoundException ex, WebRequest request) {
         String message = ex.getMessage();
         ErrorResponse errorResponse = new ErrorResponse("erro 404", message);
         return handleExceptionInternal(ex, errorResponse, new HttpHeaders(), NOT_FOUND, request);

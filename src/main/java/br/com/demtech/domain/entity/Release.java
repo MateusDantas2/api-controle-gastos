@@ -24,6 +24,12 @@ public class Release {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
+    @ManyToOne
+    @JoinColumn(name = "id_categoria")
+    private Category idCategory;
+    @ManyToOne
+    @JoinColumn(name = "id_pessoa")
+    private Person idPerson;
     @Column(name = "descricao")
     @Size(min = 3, max = 50)
     private String description;
@@ -39,12 +45,6 @@ public class Release {
     @Enumerated(STRING)
     @Column(name = "tipo")
     private ReleaseType type;
-    @ManyToOne
-    @JoinColumn(name = "id_categoria", referencedColumnName = "id", insertable = false, updatable = false)
-    private Category category;
-    @ManyToOne
-    @JoinColumn(name = "id_pessoa", referencedColumnName = "id", insertable = false, updatable = false)
-    private Person person;
 
     public enum ReleaseType {
         RECEITA, DESPESA
