@@ -3,7 +3,7 @@ package br.com.demtech.validations.person;
 import br.com.demtech.domain.entity.Person;
 import br.com.demtech.domain.repository.PersonRepository;
 import br.com.demtech.dto.ResponseStandard;
-import br.com.demtech.exceptions.PersonNotFoundException;
+import br.com.demtech.exceptions.PersonException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,7 +27,7 @@ public class PersonValidation {
     public Person getPersonById(Long id) {
         Person savedPerson = personRepository.findById(id).orElse(null);
         if (savedPerson == null) {
-            throw new PersonNotFoundException(id);
+            throw new PersonException(id);
         }
         return savedPerson;
     }

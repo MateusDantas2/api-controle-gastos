@@ -1,7 +1,7 @@
-package br.com.demtech.exceptions;
+package br.com.demtech.exceptions.handler;
 
-import br.com.demtech.domain.repository.PersonRepository;
 import br.com.demtech.dto.ErrorResponse;
+import br.com.demtech.exceptions.EmptyException;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,8 +40,6 @@ public class GeneralExceptionHandler extends ResponseEntityExceptionHandler {
 
     @Autowired
     private MessageSource messageSource;
-    @Autowired
-    private PersonRepository personRepository;
 
     @Override
     protected ResponseEntity<Object> handleHttpMessageNotReadable
@@ -83,27 +81,6 @@ public class GeneralExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(EmptyException.class)
     public ResponseEntity<Object> handleEmptyNotFound(EmptyException ex, WebRequest request) {
-        String message = ex.getMessage();
-        ErrorResponse errorResponse = new ErrorResponse("erro 404", message);
-        return handleExceptionInternal(ex, errorResponse, new HttpHeaders(), NOT_FOUND, request);
-    }
-
-    @ExceptionHandler(CategoryNotFoundException.class)
-    public ResponseEntity<Object> handleCategoryNotFound(CategoryNotFoundException ex, WebRequest request) {
-        String message = ex.getMessage();
-        ErrorResponse errorResponse = new ErrorResponse("erro 404", message);
-        return handleExceptionInternal(ex, errorResponse, new HttpHeaders(), NOT_FOUND, request);
-    }
-
-    @ExceptionHandler(PersonNotFoundException.class)
-    public ResponseEntity<Object> handlePersonNotFound(PersonNotFoundException ex, WebRequest request) {
-        String message = ex.getMessage();
-        ErrorResponse errorResponse = new ErrorResponse("erro 404", message);
-        return handleExceptionInternal(ex, errorResponse, new HttpHeaders(), NOT_FOUND, request);
-    }
-
-    @ExceptionHandler(ReleaseNotFoundException.class)
-    public ResponseEntity<Object> handleReleaseNotFound(ReleaseNotFoundException ex, WebRequest request) {
         String message = ex.getMessage();
         ErrorResponse errorResponse = new ErrorResponse("erro 404", message);
         return handleExceptionInternal(ex, errorResponse, new HttpHeaders(), NOT_FOUND, request);

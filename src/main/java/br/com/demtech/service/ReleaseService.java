@@ -5,7 +5,7 @@ import br.com.demtech.domain.repository.ReleaseRepository;
 import br.com.demtech.dto.ResponseStandard;
 import br.com.demtech.event.ResourceCreatedEvent;
 import br.com.demtech.exceptions.EmptyException;
-import br.com.demtech.exceptions.ReleaseNotFoundException;
+import br.com.demtech.exceptions.ReleaseException;
 import br.com.demtech.validations.release.ReleaseValidation;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +13,6 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-
-import static org.springframework.http.HttpStatus.CREATED;
 
 /**
  *
@@ -48,6 +46,6 @@ public class ReleaseService {
 
     public Release listReleaseById(Long id) {
         return releaseRepository.findById(id)
-            .orElseThrow(() -> new ReleaseNotFoundException(id));
+            .orElseThrow(() -> new ReleaseException(id));
     }
 }

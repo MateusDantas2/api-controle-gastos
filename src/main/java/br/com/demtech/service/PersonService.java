@@ -5,7 +5,7 @@ import br.com.demtech.domain.repository.PersonRepository;
 import br.com.demtech.dto.ResponseStandard;
 import br.com.demtech.event.ResourceCreatedEvent;
 import br.com.demtech.exceptions.EmptyException;
-import br.com.demtech.exceptions.PersonNotFoundException;
+import br.com.demtech.exceptions.PersonException;
 import br.com.demtech.validations.person.PersonValidation;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.BeanUtils;
@@ -52,13 +52,13 @@ public class PersonService {
 
     public Person listPersonById(Long id) {
         return personRepository.findById(id)
-            .orElseThrow(() -> new PersonNotFoundException(id));
+            .orElseThrow(() -> new PersonException(id));
     }
 
     public Person updatePerson(Long id, Person person) {
         Person savedPerson = personRepository.findById(id).orElse(null);
         if (savedPerson == null) {
-            throw new PersonNotFoundException(id);
+            throw new PersonException(id);
         }
         BeanUtils.copyProperties(person, savedPerson, "id");
         return personRepository.save(savedPerson);
@@ -75,7 +75,7 @@ public class PersonService {
         if (person.isPresent()) {
             personRepository.deleteById(id);
         } else {
-            throw new PersonNotFoundException(id);
+            throw new PersonException(id);
         }
     }
 }

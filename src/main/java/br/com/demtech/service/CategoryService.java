@@ -4,7 +4,7 @@ import br.com.demtech.domain.entity.Category;
 import br.com.demtech.domain.repository.CategoryRepository;
 import br.com.demtech.dto.ResponseStandard;
 import br.com.demtech.event.ResourceCreatedEvent;
-import br.com.demtech.exceptions.CategoryNotFoundException;
+import br.com.demtech.exceptions.CategoryException;
 import br.com.demtech.exceptions.EmptyException;
 import br.com.demtech.validations.category.CategoryValidation;
 import jakarta.servlet.http.HttpServletResponse;
@@ -50,6 +50,6 @@ public class CategoryService {
 
     public Category listCategoryById(Long id) {
         return categoryRepository.findById(id)
-            .orElseThrow(() -> new CategoryNotFoundException(id));
+            .orElseThrow(() -> new CategoryException(id));
     }
 }

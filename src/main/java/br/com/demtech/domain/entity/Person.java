@@ -1,6 +1,7 @@
 package br.com.demtech.domain.entity;
 
 import br.com.demtech.domain.model.Address;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -35,4 +36,10 @@ public class Person {
     @NotNull
     @Column(name = "ativo")
     private Boolean status;
+
+    @JsonIgnore
+    @Transient
+    public boolean isInactive() {
+        return !this.status;
+    }
 }

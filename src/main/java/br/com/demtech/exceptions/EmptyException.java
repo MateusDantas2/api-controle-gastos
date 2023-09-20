@@ -12,7 +12,7 @@ import org.springframework.http.HttpStatus;
 @NoArgsConstructor
 public class EmptyException extends RuntimeException {
 
-    private  String title;
+    private String title;
     private HttpStatus httpStatus;
 
     public EmptyException(String message) {
