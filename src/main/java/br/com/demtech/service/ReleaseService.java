@@ -14,6 +14,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import static org.springframework.http.HttpStatus.CREATED;
+
 /**
  *
  * @author Mateus Dantas
@@ -29,11 +31,7 @@ public class ReleaseService {
     private ApplicationEventPublisher publisher;
 
     public ResponseStandard createRelease(Release release, HttpServletResponse response) {
-        ResponseStandard errorResponse = releaseValidation.validateFieldsExists(release.getIdCategory(), release.getIdPerson());
-        if (errorResponse != null) {
-            return errorResponse;
-        }
-
+        releaseValidation.validateFieldsExists(release.getIdCategory(), release.getIdPerson());
         Release savedRelease = releaseRepository.save(release);
         publisher.publishEvent(new ResourceCreatedEvent(this, response, savedRelease.getId()));
 

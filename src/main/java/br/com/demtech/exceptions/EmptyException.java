@@ -1,6 +1,7 @@
 package br.com.demtech.exceptions;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.http.HttpStatus;
 
 /**
@@ -8,6 +9,7 @@ import org.springframework.http.HttpStatus;
  * @author Mateus Dantas
  */
 @Getter
+@NoArgsConstructor
 public class EmptyException extends RuntimeException {
 
     private  String title;
@@ -19,6 +21,11 @@ public class EmptyException extends RuntimeException {
 
     public EmptyException(String message, Throwable cause) {
         super(message, cause);
+    }
+
+    public EmptyException(String title, String message) {
+        super(message);
+        this.title = title;
     }
 
     public EmptyException(String message, HttpStatus httpStatus) {
