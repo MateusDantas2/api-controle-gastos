@@ -1,6 +1,7 @@
 package br.com.demtech.service;
 
 import br.com.demtech.domain.entity.Release;
+import br.com.demtech.domain.model.ReleaseFilter;
 import br.com.demtech.domain.repository.ReleaseRepository;
 import br.com.demtech.dto.ResponseStandard;
 import br.com.demtech.event.ResourceCreatedEvent;
@@ -36,8 +37,8 @@ public class ReleaseService {
         return ResponseStandard.success("Cadastro concluído com sucesso!");
     }
 
-    public List<Release> listReleases() {
-        List<Release> releases = releaseRepository.findAll();
+    public List<Release> listReleases(ReleaseFilter releaseFilter) {
+        List<Release> releases = releaseRepository.filter(releaseFilter);
         if (releases.isEmpty()) {
             throw new EmptyException("Dados não encontrados na base de dados!");
         }

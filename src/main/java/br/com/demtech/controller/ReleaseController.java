@@ -1,6 +1,7 @@
 package br.com.demtech.controller;
 
 import br.com.demtech.domain.entity.Release;
+import br.com.demtech.domain.model.ReleaseFilter;
 import br.com.demtech.dto.ResponseStandard;
 import br.com.demtech.service.ReleaseService;
 import jakarta.servlet.http.HttpServletResponse;
@@ -30,8 +31,8 @@ public class ReleaseController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Release>> listReleases() {
-        List<Release> releases = releaseService.listReleases();
+    public ResponseEntity<List<Release>> listReleases(ReleaseFilter releaseFilter) {
+        List<Release> releases = releaseService.listReleases(releaseFilter);
         return ResponseEntity.ok().body(releases);
     }
 
