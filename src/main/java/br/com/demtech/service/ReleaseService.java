@@ -11,9 +11,12 @@ import br.com.demtech.validations.release.ReleaseValidation;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  *
@@ -37,8 +40,8 @@ public class ReleaseService {
         return ResponseStandard.success("Cadastro concluído com sucesso!");
     }
 
-    public List<Release> listReleases(ReleaseFilter releaseFilter) {
-        List<Release> releases = releaseRepository.filter(releaseFilter);
+    public Page<Release> listReleases(ReleaseFilter releaseFilter, Pageable pageable) {
+        Page<Release> releases = releaseRepository.filter(releaseFilter, pageable);
         if (releases.isEmpty()) {
             throw new EmptyException("Dados não encontrados na base de dados!");
         }
@@ -48,5 +51,14 @@ public class ReleaseService {
     public Release listReleaseById(Long id) {
         return releaseRepository.findById(id)
             .orElseThrow(() -> new ReleaseException(id));
+    }
+
+    public void deleteRelease(Long id) {
+        Optional<Release> release = releaseRepository.findById(id);
+        if (release.isPresent()) {
+            releaseRepository.deleteById(id);
+        } else {
+            throw new ReleaseException(id);
+        }
     }
 }

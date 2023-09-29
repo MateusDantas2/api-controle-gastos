@@ -9,8 +9,12 @@ import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -22,15 +26,23 @@ public class ReleaseRepositoryImpl implements ReleaseRepositoryQuery {
     private EntityManager entityManager;
 
     @Override
-    public List<Release> filter(ReleaseFilter releaseFilter) {
+    public Page<Release> filter(ReleaseFilter releaseFilter, Pageable pageable) {
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Release> criteria = builder.createQuery(Release.class);
         Root<Release> root = criteria.from(Release.class);
 
         Predicate[] predicates = createRestrictions(releaseFilter, builder, root);
         criteria.where(predicates);
+
         TypedQuery<Release> query = entityManager.createQuery(criteria);
-        return query.getResultList();
+
+        Long totalRecords = total(releaseFilter);
+        query.setFirstResult((int) pageable.getOffset());
+        query.setMaxResults(pageable.getPageSize());
+
+        List<Release> releases = query.getResultList();
+
+        return new PageImpl<>(releases, pageable, totalRecords);
     }
 
     private Predicate[] createRestrictions(ReleaseFilter releaseFilter, CriteriaBuilder builder, Root<Release> root) {
@@ -58,5 +70,26 @@ public class ReleaseRepositoryImpl implements ReleaseRepositoryQuery {
             );
         }
         return predicates.toArray(new Predicate[predicates.size()]);
+    }
+
+    private void addPaginationRestrictions(TypedQuery<Release> query, Pageable pageable) {
+        int currentPage = pageable.getPageNumber();
+        int totalRecordsPerPage = pageable.getPageSize();
+        int firstPageRecord = currentPage * totalRecordsPerPage;
+
+        query.setFirstResult(firstPageRecord);
+        query.setMaxResults(totalRecordsPerPage);
+    }
+
+    private Long total(ReleaseFilter releaseFilter) {
+        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Long> criteria = builder.createQuery(Long.class);
+        Root<Release> root = criteria.from(Release.class);
+
+        Predicate[] predicates = createRestrictions(releaseFilter, builder, root);
+        criteria.where(predicates);
+        criteria.select(builder.count(root));
+
+        return entityManager.createQuery(criteria).getSingleResult();
     }
 }
