@@ -32,12 +32,22 @@ public class User implements UserDetails {
     private Long id;
     @NotNull
     @Size(min = 3, max = 50)
-    private String email;
+    private String name;
     @NotNull
     @Size(min = 3, max = 50)
+    private String email;
+    @NotNull
+    @Size(min = 3, max = 255)
     private String password;
     @Enumerated(EnumType.STRING)
     private UserRole role;
+
+    public User(@NotNull String name, @NotNull String email, @NotNull String password, UserRole role) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.role = role;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
