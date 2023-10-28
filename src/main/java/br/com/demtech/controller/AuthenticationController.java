@@ -1,10 +1,11 @@
 package br.com.demtech.controller;
 
+import br.com.demtech.config.security.TokenService;
 import br.com.demtech.domain.entity.User;
 import br.com.demtech.domain.repository.UserRepository;
-import br.com.demtech.dto.ResponseStandard;
 import br.com.demtech.dto.user.AuthenticationDTO;
 import br.com.demtech.dto.user.RegisterDTO;
+import br.com.demtech.dto.user.TokenResponseDTO;
 import br.com.demtech.exceptions.UserException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +18,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import static org.springframework.http.HttpStatus.CREATED;
-
 /**
  *
  * @author Mateus Dantas
@@ -30,13 +29,16 @@ public class AuthenticationController {
     private AuthenticationManager authenticationManager;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private TokenService tokenService;
 
     @PostMapping(value = "/login", produces = "application/json")
-    public ResponseEntity login(@Valid @RequestBody AuthenticationDTO data) {
+    public ResponseEntity<TokenResponseDTO> login(@Valid @RequestBody AuthenticationDTO data) {
         var usernamePassword = new UsernamePasswordAuthenticationToken(data.email(), data.password());
         var auth = this.authenticationManager.authenticate(usernamePassword);
+        var token = tokenService.generateToken((User) auth.getPrincipal());
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(new TokenResponseDTO(token));
     }
 
     @PostMapping(value = "/register", produces = "application/json")
